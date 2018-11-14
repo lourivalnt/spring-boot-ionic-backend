@@ -8,9 +8,9 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.spring.cursomc.domain.Cliente;
-//import com.spring.cursomc.services.validation.ClienteUpdate;
+import com.spring.cursomc.services.validation.ClienteUpdate;
 
-//@ClienteUpdate
+@ClienteUpdate
 public class ClienteDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
