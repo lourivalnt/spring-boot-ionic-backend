@@ -10,17 +10,19 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.cursomc.domain.Cidade;
 import com.spring.cursomc.domain.Cliente;
 import com.spring.cursomc.domain.Endereco;
+import com.spring.cursomc.domain.enums.Perfil;
 import com.spring.cursomc.domain.enums.TipoCliente;
 import com.spring.cursomc.dto.ClienteDTO;
 import com.spring.cursomc.dto.ClienteNewDTO;
 import com.spring.cursomc.repositories.ClienteRepository;
 import com.spring.cursomc.repositories.EnderecoRepository;
-import com.spring.cursomc.resources.exceptions.DataIntegrityException;
+import com.spring.cursomc.security.UserSS;
+import com.spring.cursomc.services.exceptions.AuthorizationException;
+import com.spring.cursomc.services.exceptions.DataIntegrityException;
 import com.spring.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -36,6 +38,12 @@ public class ClienteService {
 	private EnderecoRepository enderecoRepository;
 
 	public Cliente find(Integer id) {
+		
+		UserSS user = UserService.authenticated();
+		if (user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));

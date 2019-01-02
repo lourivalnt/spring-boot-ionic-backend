@@ -1,4 +1,4 @@
-package com.spring.cursomc.resources.exceptions;
+package com.spring.cursomc.services.exceptions;
 
 public class DataIntegrityException extends RuntimeException {
 

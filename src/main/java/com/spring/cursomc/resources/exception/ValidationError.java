@@ -1,4 +1,4 @@
-package com.spring.cursomc.resources.exceptions;
+package com.spring.cursomc.resources.exception;
 
 import java.util.ArrayList;
 import java.util.List;
